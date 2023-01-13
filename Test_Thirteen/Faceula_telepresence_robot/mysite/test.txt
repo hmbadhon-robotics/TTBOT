@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	{% comment %}
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+		integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8" crossorigin="anonymous"></script> {% endcomment
+	%}
+	<meta charset="UTF-8">
+	<title>Faceula Robot</title>
+	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+</head>
+
+<body>
+	<h1 id="label">Welcome to Faceula Robot</h1>
+	<h1 id="label-username">Username :</h1>
+
+	<div>
+		<input id="username">
+		<br>
+		<button id="btn-join">Join Room</button>
+		<br>
+	</div>
+	<hr>
+	<br><Br>
+
+
+	<div class="main-grid-container">
+
+
+		{% comment %} Video container {% endcomment %}
+		<div id="video-container">
+			<div><video id="local-video" style="float: left;" autoplay playsinline></video></div>
+			<button id="btn-toggle-audio" class="btn btn-dark">Audio Mute</button>
+			<br>
+			<button id="btn-toggle-video" class="btn btn-dark">Video Off</button>
+		</div>
+
+		<div id="chat">
+			<h3> CHAT </h3>
+			<div id="messages">
+				<ul id="message-list"></ul>
+			</div>
+			<div id="ct"><input id="msg"><button id="btn-send-msg">send</button></div>
+			<button id="btn-share-screen">Share Screen</button>
+			<button id="btn-record-screen">Record Screen</button>
+			<button class="view-button" id="share-file-button">Share File</button>
+			<div id="select-file-dialog" style="display: none;">
+				<div id="dialog-content">
+					<div id="select-file">
+						<div id="label">Select a file:</div>
+						<input type="file" id="select-file-input">
+					</div>
+					<div id="dialog-footer">
+						<button id="ok-button" disabled>Ok</button>
+						<button id="cancel-button" class="cancel-button">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		
+		<div class="controller"></div>
+		<div class="a1" style="display: flex; justify-content: center">
+			<form method="POST" id="post_forward">
+				{% csrf_token %}
+				<input type="text" name="control" value="forward" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="forward-button">Forward</button>
+			</form>
+		</div>
+		<div class="a2" style="display:flex">
+			<form method="POST" id="post_left">
+				{% csrf_token %}
+				<input type="text" name="control" value="left" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="left-button">Left</button>
+			</form>
+
+			<form method="POST" id="post_stop" onsubmit="return false">
+				{% csrf_token %}
+				<input type="text" name="control" value="stop" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="stop-button">Stop</button>
+			</form>
+
+			<form method="POST" id="post_right">
+				{% csrf_token %}
+				<input type="text" name="control" value="right" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="right-button">Right</button>
+			</form>
+		</div>
+		<div class="a3" style="display: flex; justify-content: center">
+			<form method="POST" id="post_reverse">
+				{% csrf_token %}
+
+				<input type="text" name="control" value="reverse" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="reverse-button">Reverse</button>
+			</form>
+		</div>
+
+		<div class="servo" tyle="display: flex; justify-content: center">
+			<form method="POST" id="post_up">
+				{% csrf_token %}
+				<input type="text" name="control" value="up" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="up-button"> Head UP</button>
+			</form>
+			<form method="POST" id="post_down">
+				{% csrf_token %}
+				<input type="text" name="control" value="down" placeholder="Enter value" style="display: none;" />
+				<button type="button" id="down-button"> Head Down</button>
+			</form>
+		</div>
+	</div>
+	</div>
+
+	{% block content %}
+	{% endblock %}
+</body>
+
+
+
+
+{% comment %} # Control the Robot movement without rendaring . {% endcomment %}
+<script>
+
+	function sendControl(controlValue) {
+		$.ajax({
+		  type: "POST",
+		  url: "",
+		  data: {
+			control: controlValue,
+			csrfmiddlewaretoken: "{{ csrf_token }}"
+		  }
+		});
+	  }
+	  
+	  // Add the event handlers for all of the buttons
+	  document.getElementById('forward-button').addEventListener('mousedown', () => sendControl('forward'));
+	  document.getElementById('forward-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('forward-button').addEventListener('touchstart', () => sendControl('forward'));
+	  document.getElementById('forward-button').addEventListener('touchend', () => sendControl('stop'));
+
+	  document.getElementById('left-button').addEventListener('mousedown', () => sendControl('left'));
+	  document.getElementById('left-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('left-button').addEventListener('touchstart', () => sendControl('left'));
+	  document.getElementById('left-button').addEventListener('touchend', () => sendControl('stop'));
+
+	  document.getElementById('stop-button').addEventListener('mousedown', () => sendControl('stop'));
+	  document.getElementById('stop-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('stop-button').addEventListener('touchstart', () => sendControl('stop'));
+	  document.getElementById('stop-button').addEventListener('touchend', () => sendControl('stop'));
+
+	  document.getElementById('right-button').addEventListener('mousedown', () => sendControl('right'));
+	  document.getElementById('right-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('right-button').addEventListener('touchstart', () => sendControl('right'));
+	  document.getElementById('right-button').addEventListener('touchend', () => sendControl('stop'));
+
+	  document.getElementById('reverse-button').addEventListener('mousedown', () => sendControl('reverse'));
+	  document.getElementById('reverse-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('reverse-button').addEventListener('touchstart', () => sendControl('reverse'));
+	  document.getElementById('reverse-button').addEventListener('touchend', () => sendControl('stop'));
+
+	  document.getElementById('up-button').addEventListener('mousedown', () => sendControl('up'));
+	  document.getElementById('up-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('up-button').addEventListener('touchstart', () => sendControl('up'));
+	  document.getElementById('up-button').addEventListener('touchend', () => sendControl('stop'));
+
+	  document.getElementById('down-button').addEventListener('mousedown', () => sendControl('down'));
+	  document.getElementById('down-button').addEventListener('mouseup', () => sendControl('stop'));
+	  document.getElementById('down-button').addEventListener('touchstart', () => sendControl('down'));
+	  document.getElementById('down-button').addEventListener('touchend', () => sendControl('stop'));
+
+
+
+</script>
+
+</html>

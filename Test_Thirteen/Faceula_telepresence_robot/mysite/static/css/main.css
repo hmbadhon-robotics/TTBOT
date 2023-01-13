@@ -1,0 +1,96 @@
+.video-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: black;
+}
+
+.main-grid-container {
+    display: grid;
+    grid-template-columns: 60% 20%;
+}
+
+video {
+    border-radius: 5%;
+    background-color: rgb(0, 0, 0);
+}
+#chat{
+    display: none;
+}
+.controller button{
+    position: center;
+    background-image: linear-gradient(144deg,#6ef4eb, #76e9f5 50%,#42f6f6);
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 6px 2px;
+  }
+  .servo button{
+    background-image: linear-gradient(144deg,#f1cba0, #e3c2c2 50%,#efb688);
+    size-adjust: 10%;
+  }
+
+
+button {
+    align-items: center;
+    background-image: linear-gradient(144deg,#8df36b, #58f384 50%,#51f978);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #000000;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+    padding: 10px 15px;
+   }
+   
+   button:active,
+   button:hover {
+    outline: 0;
+   }
+   
+   button span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+   }
+   
+   button:hover span {
+    background: none;
+   }
+   
+   button:active {
+    transform: scale(0.9);
+   }
+
+   /* Controller Button Styling */
+   /* .controller .a2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+   }
+
+   #post_left{
+    border: 2px solid green;
+   } */
+

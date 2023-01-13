@@ -1,0 +1,102 @@
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from .utils import get_turn_info
+
+import time
+import Jetson.GPIO as GPIO
+mA1=18
+mA2=23
+mB1=24
+mB2=25
+speed=12
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(mA1, GPIO.OUT)
+GPIO.setup(mA2, GPIO.OUT)
+GPIO.setup(mB1, GPIO.OUT)
+GPIO.setup(mB2, GPIO.OUT)
+GPIO.setup(speed, GPIO.OUT)
+
+GPIO.output(mA1 , 0)
+GPIO.output(mA2 , 0)
+GPIO.output(mB1, 0)
+GPIO.output(mB2, 0)
+GPIO.output(speed, 0)
+
+# Create your views here.
+
+def peer1(request):
+    # get numb turn info
+    context = get_turn_info()
+
+    return render(request, 'chat/peer1.html', context=context)
+
+def peer2(request):
+    # get numb turn info
+    context = get_turn_info()
+
+    return render(request, 'chat/peer2.html', context=context)
+
+def peer(request):
+    # get numb turn info
+    context = get_turn_info()
+    print('context: ', context)
+
+    return render(request, 'chat/peer.html', context=context) 
+  ##############control#############  
+def output(request):
+    if request.method == 'POST':
+            data = request.POST['arif']
+            if data=="left":
+                print("Left")
+                GPIO.output(mA1 , 0)
+                GPIO.output(mA2 , 0)
+                GPIO.output(mB1 , 1)
+                GPIO.output(mB2 , 0)
+
+            elif data == "forward":    
+                print("Forward")
+                GPIO.output(mA1 , 1)
+                GPIO.output(mA2 , 0)
+                GPIO.output(mB1 , 1)
+                GPIO.output(mB2 , 0)
+            elif data == "right":
+                print("Right")
+                GPIO.output(mA1 , 1)
+                GPIO.output(mA2 , 0)
+                GPIO.output(mB1 , 0)
+                GPIO.output(mB2 , 0)
+            elif data == "reverse":
+
+            else:
+                print("Stop")
+                GPIO.output(mA1 , 0)
+                GPIO.output(mA2 , 0)
+                GPIO.output(mB1 , 0)
+                GPIO.output(mB2 , 0)
+
+    return render(request, 'chat/peer.html')
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return render(request, 'chat/peer.html')
+
+def button(request):
+    
+    return render(request, 'main.html')
